@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.dao.ExpertDao">
+	<!-- <insert id="add" parameterType="userModel">
+		insert into user(uid,gid,username,password) values(#{uid},#{gid},#{username},#{password})
+	</insert>
+	<select id="findAll" resultType="userModel">
+		select * from user
+	</select>
+	<select id="findByName" parameterType="String" resultType="userModel">
+		select * from user where username=#{username}
+	</select>
+	<delete id="del" parameterType="int">
+		delete from user where uid=#{uid}
+	</delete>
+	<update id="update" parameterType="userModel">
+		update user set username=#{username},password=#{password} where uid=#{uid}
+	</update> -->
+	<select id="findById" parameterType="int" resultType="expertModel">
+		select * from expert where uid=#{uid}
+	</select>
+	
+	<!-- <select id="checkLogin" parameterType="userQueryModel" resultType="userModel">
+		select * from user where username=#{username} and password=#{password}
+	</select> -->
+</mapper>

@@ -1,0 +1,11 @@
+drop database student ;
+create database student ;
+use student ;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS course;
+DROP TABLE IF EXISTS SC;
+DROP TABLE IF EXISTS teacher;
+CREATE TABLE student(int sid,varchar sname,int sage,varchar ssex);
+CREATE TABLE course(int cid,varchar cname,int tid);
+CREATE TABLE SC(int sid,int cid,int score);
+CREATE TABLE teacher(int tid,varchar tname);

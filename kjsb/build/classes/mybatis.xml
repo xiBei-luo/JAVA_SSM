@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.yc.model.UserModel" alias="userModel" />
+		<typeAlias type="com.yc.model.UserQueryModel" alias="userQueryModel" />
+		<typeAlias type="com.yc.model.ExpertModel" alias="expertModel" />
+		<typeAlias type="com.yc.model.ExpertQueryModel" alias="expertQueryModel" />
+		<typeAlias type="com.yc.model.UnitModel" alias="unitModel" />
+		<typeAlias type="com.yc.model.UnitQueryModel" alias="unitQueryModel" />
+		<typeAlias type="com.yc.model.ProjectModel" alias="projectModel" />
+		<typeAlias type="com.yc.model.ProjectQueryModel" alias="projectQueryModel" />
+		<typeAlias type="com.yc.model.ProjetCategoryModel" alias="projetCategoryModel" />
+		<typeAlias type="com.yc.model.ProjetCategoryQueryModel" alias="projetCategoryQueryModel" />
+		<typeAlias type="com.yc.model.UserGroupModel" alias="userGroupModel" />
+	</typeAliases>
+</configuration>
