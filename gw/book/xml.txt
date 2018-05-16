@@ -1,0 +1,28 @@
+XML代表可扩展的标记语言(eXtensible Markup Language)
+XML文档=序言+元素+杂项（可选）
+序言=（XML声明）+（杂项）+（文档类型声明）
+----------------------------------------------------------
+<?xml 
+<![CDATA[...]]>
+ENTITY
+doctype
+element
+attlist
+?:0-1,+:1-n,*:0-n,”,”:顺序，|：或
+格式 7点
+CDATA，Enumerated，REQUIRED，IMPLIED，IMPLIED
+NameSpace
+
+schema
+complexType
+sequence
+
+XSL
+XSL 指扩展样式表语言
+CSS = HTML 样式表
+XSL = XML 样式表
+
+
+
+
+

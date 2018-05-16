@@ -1,0 +1,28 @@
+set path
+set path=%path%;C:\Program Files\Java\jdk1.6.0_10\bin
+set path
+
+javac -d . Abc.java
+java com.hisoft.tss.Abc
+
+set classpath
+set classpath=.;C:\Program Files\Java\jdk1.6.0_10\lib\dt.jar;C:\Program Files\Java\jdk1.6.0_10\lib\tools.jar
+set classpath
+
+package com.pactera.tss;
+public class MyTest
+{
+public static void main(String[] args)
+{
+System.out.println("hello world");
+}
+}
+
+
+◆JAVA_HOME：该环境变量的值就是Java所在的目录，一些Java版的软件和一些Java的工具需要用到该变量，设置PATH和CLASSPATH的时候，也可以使用该变量以方便设置。
+
+◆PATH：指定一个路径列表，用于搜索可执行文件的。执行一个可执行文件时，如果该文件不能在当前路径下找到，则依次寻找PATH中的每一个路径，直至找到。或者找完PATH中的路径也不能找到，则报错。Java的编译命令(javac)，执行命令(java)和一些工具命令(javadoc,jdb等)都在其安装路径下的bin目录中。因此我们应该将该路径添加到PATH变量中。
+
+◆CLASSPATH：也指定一个路径列表，是用于搜索Java编译或者运行时需要用到的类。在CLASSPATH列表中除了可以包含路径外，还可以包含.jar文件。Java查找类时会把这个.jar文件当作一个目录来进行查找。通常，我们需要把JDK安装路径下的jre\lib\rt.jar(Linux:jre/lib/rt.jar)包含在CLASSPATH中。
+
+

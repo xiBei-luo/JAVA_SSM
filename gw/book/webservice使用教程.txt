@@ -1,0 +1,394 @@
+Web Service实践之——开始XFire
+
+一、Axis与XFire的比较
+XFire是与Axis2 并列的新一代WebService平台。之所以并称为新一代，因为它：
+1、支持一系列Web Service的新标准--JSR181、WSDL2.0 、JAXB2、WS-Security等；
+2、使用Stax解释XML,性能有了质的提高。XFire采用Woodstox 作Stax实现；
+3、容易上手，可以方便快速地从pojo发布服务； 
+4、Spring的结合；
+5、灵活的Binding机制，包括默认的Acegis,xmlbeans,jaxb2,castor。
+ 
+XFire与Axis1性能的比较
+1、XFire比Axis1.3快2-6倍
+2、XFire的响应时间是Axis1.3的1/2到1/5
+ 
+XFire与Axis2的比较
+虽然XFire与Axis2都是新一代的WebService平台，但是Axis2的开发者太急于推出1.0版本，所以1.0还不是一个稳定的版本，它的开发者宣称1.1版本即将推出，希望1.1版本会是个稳定的版本。在XFire捐献给apache后有人认为Axis2将会灭亡。其实在很多人眼里，Axis2并不是pojo形式，现在也好象XFire比Axis更有市场，也有很多人开始从Axis转向XFire。
+据说，XFire确实比Axis2简单很多 
+
+AXIS VS CXF
+在SOA领域，我们认为Web Service是SOA体系的构建单元（building block）。对于作过WebService的开发人员来说，AXIS和CXF一定都不会陌生。这两个产品都是Apache孵化器下面的Web Service开源开发工具。 Axis2的最新版本是1.3，CXF现在已经到了2.0版本。
+
+这两个框架 都是从已有的开源项目发展起来的。Axis2是从Axis1.x系列发展而来。CXF则是XFire和Celtix项目的结合产品。Axis2是从底层全部重新实现，使用了新的扩展性更好模块架构。 CXF也重新的深化了XFire和Celtix这两个开发工具。
+
+新产品的退出导致了几个问题。是不是现有的使用Axis 1.x，XFire和Celix的应用需要迁移的新的版本上。如果一个开发人员确定要迁移它的应用到新的框架上，那么他应该选择哪一个呢？相反的，如果一个开发者决定从头开发一个新的Web Service，他应该使用哪个呢？ 这两个框架哪一个更好一些呢？
+
+对于系统迁移来说，也许迁移到新的框架并不难。Axis和CXF都提供了迁移的指导。能够给开发者一些迁移的技巧和经验。但是对于这样迁移，这两个开源项目都没有提供迁移的工具。对于这样的迁移工作，尽管很值得去寻找所有的可行方案。Axis2和CXF都有各自不同的WebService开发方法，每个方法都有相当数量拥护者。
+
+通过一个比较矩阵来比较Axis2和CXF变得有现实的意义。这两个项目都开发不够成熟，但是最主要的区别在以下几个方面：
+1. CXF支持 WS-Addressing，WS-Policy， WS-RM， WS-Security和WS-I Basic Profile。Axis2不支持WS-Policy，但是承诺在下面的版本支持。
+2. CXF可以很好支持Spring。Axis2不能
+3. AXIS2支持更广泛的数据并对，如XMLBeans，JiBX，JaxMe和JaxBRI和它自定义的数据绑定ADB。注意JaxME和JaxBRI都还是试验性的。CXF只支持JAXB和Aegis。在CXF2.1
+4. Axis2支持多语言-除了Java,他还支持C/C++版本。
+
+比较这两个框架的Web Service开发方法与比较它们的特性同样重要。 从开发者的角度，两个框架的特性相当的不同。 Axis2的开发方式类似一个小型的应用服务器，Axis2的开发包要以WAR的形式部署到Servlet容器中，比如Tomcat，通过这些容器可以对工作中的Web Service进行很好的监控和管理。Axis2 的Web administrion模块可以让我们动态的配置Axis2.一个新的服务可以上载，激活，使之失效，修改web服务的参数。管理UI也可以管理一个或者多个处于运行状态的服务。这种界面化管理方式的一个弊端是所有在运行时修改的参数没有办法保存，因为在重启动之后，你所做的修改就会全部失效。
+
+Axis2允许自己作为独立的应用来发布Web Service，并提供了大量的功能和一个很好的模型，这个模型可以通过它本身的架构（modular architecture）不断添加新的功能。有些开发人员认为这种方式对于他们的需求太过于繁琐。这些开发人员会更喜欢CXF。
+
+CXF更注重开发人员的工效（ergonomics）和嵌入能力（embeddability）。大多数配置都可以API来完成，替代了比较繁琐的XML配置文件， Spring的集成性经常的被提及，CXF支持Spring2.0和CXF's API和Spring的配置文件可以非常好的对应。CXF强调代码优先的设计方式（code-first design)，使用了简单的API使得从现有的应用开发服务变得方便。
+
+不过你选择Axis2还是CXF，你都可以从开源社区得到大量的帮助。这两个框架都有商业公司提供服务，WSO2提供AXIS2的支持，Iona提供CXF的支持。这两公司都有很活跃的开发者社区。 Axis2出现的时间较早，CXF的追赶速度快。我的建议是：如果你需要多语言的支持，你应该选择AXIS2。如果你需要把你的实现侧重JAVA并希望和Spring集成，CXF就是更好的选择，特别是把你的Web Service嵌入其他的程序中。如果你觉得这两个框架的新特性对于你并没有太大的用处，你会觉得Axis1也是不错的选择，你应该继续使用它知道你有充分的理由去更换它。
+
+
+二、开始XFire的生火之旅：
+1、配置XFire运行环境：
+在Tomcat下新建一个Web Applications，命名为stove，然后在其WEB-INF目录下新建一个web.xml文件，文件中输入：
+
+Xml代码 
+1.<?xml version="1.0" encoding="GB2312">  
+2.<!DOCTYPE web-app   
+3.    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"   
+4.    "http://java.sun.com/dtd/web-app_2_3.dtd">  
+5.       
+6.<web-app>  
+7.  
+8.  <servlet>  
+9.    <servlet-name>XFireServlet</servlet-name>  
+10.    <display-name>XFire Servlet</display-name>  
+11.    <servlet-class>org.codehaus.xfire.transport.http.XFireConfigurableServlet</servlet-class>  
+12.  </servlet>  
+13.  
+14.  <servlet-mapping>  
+15.    <servlet-name>XFireServlet</servlet-name>  
+16.    <url-pattern>/servlet/XFireServlet/*</url-pattern>  
+17.  </servlet-mapping>  
+18.  
+19.  <servlet-mapping>  
+20.    <servlet-name>XFireServlet</servlet-name>  
+21.    <url-pattern>/services/*</url-pattern>  
+22.  </servlet-mapping>  
+23.  
+24.</web-app>  
+<?xml version="1.0" encoding="GB2312">
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+    
+<web-app>
+
+  <servlet>
+    <servlet-name>XFireServlet</servlet-name>
+    <display-name>XFire Servlet</display-name>
+    <servlet-class>org.codehaus.xfire.transport.http.XFireConfigurableServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>XFireServlet</servlet-name>
+    <url-pattern>/servlet/XFireServlet/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>XFireServlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+
+其中主要就是引入了XFireServlet，用以处理Web Service请求，并且负责提供Web Service的WSDL，如果你发布了一个名为BookService的WebService，则可以通过网址：
+http://<服务器>[:端口]/<webapp名>/services/BookService
+来访问这个WebService，并且通过地址：
+http://<服务器>[:端口]/<webapp名>/services/BookService?WSDL  来得到这个WebService的WSDL信息。
+
+2、开发最简单的WebService
+在WEB-INF目录下新建src文件夹，然后再建一个package:
+cn.com.pansky.webservice.xfire.study
+，在这个包下面新建一个接口：
+
+Java代码 
+1.package cn.com.pansky.webservice.xfire.study;   
+2.  
+3.public interface SayHiService{   
+4.  public String sayHi(String name);   
+5.}  
+package cn.com.pansky.webservice.xfire.study;
+
+public interface SayHiService{
+  public String sayHi(String name);
+}
+
+这个接口是告诉服务器你的WebService哪些方法可以被用户调用的。下面我们再来写一个SayHiService的实现类，以完成业务逻辑：
+
+Java代码 
+1.package cn.com.pansky.webservice.xfire.study;   
+2.  
+3.public class SayHiServiceImpl implements SayHiService{   
+4.  public String sayHi(String name){   
+5.    if(name==null){   
+6.      return "连名字也不肯告诉我吗？";   
+7.    }   
+8.    return name+", 你吃了吗？没吃回家吃去吧。";   
+9.  }   
+10.  
+11.  public String 不告诉你(){   
+12.    return "我的名字不告诉你！";   
+13.  }   
+14.}  
+package cn.com.pansky.webservice.xfire.study;
+
+public class SayHiServiceImpl implements SayHiService{
+  public String sayHi(String name){
+    if(name==null){
+      return "连名字也不肯告诉我吗？";
+    }
+    return name+", 你吃了吗？没吃回家吃去吧。";
+  }
+
+  public String 不告诉你(){
+    return "我的名字不告诉你！";
+  }
+}
+
+ 这个类实现了sayHi方法，该方法是可以通过WebService调用访问到的。另外还实现了一个方法“不告诉你”，该方法因为没有在接口SayHiService中定义，所以不能被WebService调用到。
+   这个例子足够简单吧，就跟我们刚学Java时写的"Hello world"没什么两样。
+到这里为止，我们做的跟平时的Java开发没啥区别，该如何来发布WebService呢？
+
+3、把JAVA类发布为WebService：
+在WEB-INF/classes目录下新建文件夹：META-INF/xfire，然后在该文件夹下新建一个XML文件：services.xml，文件内容如下：
+
+Xml代码 
+1.<beans xmlns="http://xfire.codehaus.org/config/1.0">  
+2.  <service>  
+3.    <name>SayHiService</name>  
+4.    <namespace>http://cn.com.pansky/SayHiService</namespace>  
+5.    <serviceClass>cn.com.pansky.webservice.xfire.study.SayHiService</serviceClass>  
+6.    <implementationClass>cn.com.pansky.webservice.xfire.study.SayHiServiceImpl</implementationClass>  
+7.  </service>  
+8.</beans>  
+<beans xmlns="http://xfire.codehaus.org/config/1.0">
+  <service>
+    <name>SayHiService</name>
+    <namespace>http://cn.com.pansky/SayHiService</namespace>
+    <serviceClass>cn.com.pansky.webservice.xfire.study.SayHiService</serviceClass>
+    <implementationClass>cn.com.pansky.webservice.xfire.study.SayHiServiceImpl</implementationClass>
+  </service>
+</beans>
+ 这个文件定义一个WebService: SayHiService，并同时定义了接口和实现类。
+好了，该建的文件基本建完了，现在想办法把src下的java文件编译成class，并复制到WEB-INF/classes目录下
+
+4、启动Tomcat，测试WebService
+如果Tomcat还没配置好，抽两分钟再配一下。再把Tomcat启动起来。
+再打开浏览器，输入：
+http://localhost/stove/services
+，服务器返回的结果如下：
+Available Services:
+    * SayHiService [wsdl]
+     Generated by XFire ( http://xfire.codehaus.org/ ) 
+我们看到我们的WebService已经布署成功了，我们再看看它的WSDL信息：
+
+Xml代码 
+1.<?xml version="1.0" encoding="UTF-8"?>  
+2.<wsdl:definitions targetNamespace="http://cn.com.pansky/SayHiService" xmlns:tns="http://cn.com.pansky/SayHiService" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">  
+3.  <wsdl:types>  
+4.<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://cn.com.pansky/SayHiService">  
+5.<xsd:element name="sayHi">  
+6.<xsd:complexType>  
+7.<xsd:sequence>  
+8.<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>  
+9.</xsd:sequence>  
+10.</xsd:complexType>  
+11.</xsd:element>  
+12.<xsd:element name="sayHiResponse">  
+13.<xsd:complexType>  
+14.<xsd:sequence>  
+15.<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>  
+16.</xsd:sequence>  
+17.</xsd:complexType>  
+18.</xsd:element>  
+19.</xsd:schema>  
+20.  </wsdl:types>  
+21.  <wsdl:message name="sayHiRequest">  
+22.    <wsdl:part name="parameters" element="tns:sayHi">  
+23.    </wsdl:part>  
+24.  </wsdl:message>  
+25.  <wsdl:message name="sayHiResponse">  
+26.    <wsdl:part name="parameters" element="tns:sayHiResponse">  
+27.    </wsdl:part>  
+28.  </wsdl:message>  
+29.  <wsdl:portType name="SayHiServicePortType">  
+30.    <wsdl:operation name="sayHi">  
+31.      <wsdl:input name="sayHiRequest" message="tns:sayHiRequest">  
+32.    </wsdl:input>  
+33.      <wsdl:output name="sayHiResponse" message="tns:sayHiResponse">  
+34.    </wsdl:output>  
+35.    </wsdl:operation>  
+36.  </wsdl:portType>  
+37.  <wsdl:binding name="SayHiServiceHttpBinding" type="tns:SayHiServicePortType">  
+38.    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>  
+39.    <wsdl:operation name="sayHi">  
+40.      <wsdlsoap:operation soapAction=""/>  
+41.      <wsdl:input name="sayHiRequest">  
+42.        <wsdlsoap:body use="literal"/>  
+43.      </wsdl:input>  
+44.      <wsdl:output name="sayHiResponse">  
+45.        <wsdlsoap:body use="literal"/>  
+46.      </wsdl:output>  
+47.    </wsdl:operation>  
+48.  </wsdl:binding>  
+49.  <wsdl:service name="SayHiService">  
+50.    <wsdl:port name="SayHiServiceHttpPort" binding="tns:SayHiServiceHttpBinding">  
+51.      <wsdlsoap:address location="http://localhost/stove/services/SayHiService"/>  
+52.    </wsdl:port>  
+53.  </wsdl:service>  
+54.</wsdl:definitions>  
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://cn.com.pansky/SayHiService" xmlns:tns="http://cn.com.pansky/SayHiService" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://cn.com.pansky/SayHiService">
+<xsd:element name="sayHi">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="sayHiResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="sayHiRequest">
+    <wsdl:part name="parameters" element="tns:sayHi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHiResponse">
+    <wsdl:part name="parameters" element="tns:sayHiResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SayHiServicePortType">
+    <wsdl:operation name="sayHi">
+      <wsdl:input name="sayHiRequest" message="tns:sayHiRequest">
+    </wsdl:input>
+      <wsdl:output name="sayHiResponse" message="tns:sayHiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SayHiServiceHttpBinding" type="tns:SayHiServicePortType">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sayHi">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="sayHiRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHiResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SayHiService">
+    <wsdl:port name="SayHiServiceHttpPort" binding="tns:SayHiServiceHttpBinding">
+      <wsdlsoap:address location="http://localhost/stove/services/SayHiService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+ 这个文件跟我们用Axis生成的基本是一样的。
+
+5、享受美味的时刻
+WebService这道大餐算是烹制好了，现在是享用美餐的时候了。
+我们写一个客户端吃掉这道大餐：
+
+Java代码 
+1.package cn.com.pansky.webservice.xfire.study;   
+2.  
+3.import java.net.MalformedURLException;   
+4.import java.util.Map;   
+5.  
+6.import org.codehaus.xfire.client.Client;   
+7.import org.codehaus.xfire.client.XFireProxyFactory;   
+8.import org.codehaus.xfire.service.Service;   
+9.import org.codehaus.xfire.service.binding.ObjectServiceFactory;   
+10.import org.codehaus.xfire.transport.http.CommonsHttpMessageSender;   
+11.  
+12.public class SayHiClient{   
+13.  public static void main(String args[]) {   
+14.    String serviceURL = "http://localhost/stove/services/SayHiService";   
+15.    Service serviceModel = new ObjectServiceFactory().create(SayHiService.class,null,"http://cn.com.pansky/SayHiService",null);   
+16.  
+17.    XFireProxyFactory serviceFactory = new XFireProxyFactory();   
+18.  
+19.    try{   
+20.      SayHiService service = (SayHiService) serviceFactory.create(serviceModel, serviceURL);   
+21.      Client client = Client.getInstance(service);   
+22.      //client.addOutHandler(new OutHeaderHandler());   
+23.  
+24.      // disable timeout   
+25.      client.setProperty(CommonsHttpMessageSender.HTTP_TIMEOUT, "1");   
+26.  
+27.      String hello = service.sayHi("张山疯");   
+28.      System.out.println("服务器对[张山疯] 的回答是：" + hello );   
+29.  
+30.      hello = service.sayHi(null);   
+31.      System.out.println("服务器胡言乱语说：" + hello );   
+32.  
+33.    } catch (MalformedURLException e) {   
+34.      e.printStackTrace();   
+35.    }   
+36.  }   
+37.}  
+package cn.com.pansky.webservice.xfire.study;
+
+import java.net.MalformedURLException;
+import java.util.Map;
+
+import org.codehaus.xfire.client.Client;
+import org.codehaus.xfire.client.XFireProxyFactory;
+import org.codehaus.xfire.service.Service;
+import org.codehaus.xfire.service.binding.ObjectServiceFactory;
+import org.codehaus.xfire.transport.http.CommonsHttpMessageSender;
+
+public class SayHiClient{
+  public static void main(String args[]) {
+    String serviceURL = "http://localhost/stove/services/SayHiService";
+    Service serviceModel = new ObjectServiceFactory().create(SayHiService.class,null,"http://cn.com.pansky/SayHiService",null);
+
+    XFireProxyFactory serviceFactory = new XFireProxyFactory();
+
+    try{
+      SayHiService service = (SayHiService) serviceFactory.create(serviceModel, serviceURL);
+      Client client = Client.getInstance(service);
+      //client.addOutHandler(new OutHeaderHandler());
+
+      // disable timeout
+      client.setProperty(CommonsHttpMessageSender.HTTP_TIMEOUT, "1");
+
+      String hello = service.sayHi("张山疯");
+      System.out.println("服务器对[张山疯] 的回答是：" + hello );
+
+      hello = service.sayHi(null);
+      System.out.println("服务器胡言乱语说：" + hello );
+
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
+  }
+}
+
+ 编译这个类，再执行一下，服务器服务的结果是：
+
+2008-5-22 17:39:17 org.apache.commons.httpclient.HttpMethodBase writeRequest
+信息: 100 (continue) read timeout. Resume sending the request
+2008-5-22 17:39:17 org.apache.commons.httpclient.HttpMethodBase readResponse
+信息: Discarding unexpected response: HTTP/1.1 100 Continue
+服务器对[张山疯] 的回答是：张山疯, 你吃了吗？没吃回家吃去吧。
+2008-5-22 17:39:20 org.apache.commons.httpclient.HttpMethodBase writeRequest
+信息: 100 (continue) read timeout. Resume sending the request
+2008-5-22 17:39:20 org.apache.commons.httpclient.HttpMethodBase readResponse
+信息: Discarding unexpected response: HTTP/1.1 100 Continue
+服务器胡言乱语说：连名字也不肯告诉我吗？
+
+好了，WebService布署成功。
+
+下课！ 
