@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+">
+	<context:component-scan base-package="com.yc.*">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan><!-- 自动扫描指定包下的类，若发现有@Service,@Component,@Repository,@Controller等这些注解的类，则把这些类注册为bean
+	在注解后加上例如@Component(value=”abc”)时，注册的这个类的bean的id就是adc. -->
+	<!-- Spring父容器负责所有其他非@Controller注解的Bean的注册，而SpringMVC只负责@Controller注解的Bean的注册，使得他们各负其责、明确边界 ,所以这一步不装配Controller注解-->
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/db_song" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean><!-- 数据源连接池 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mapperLocations" value="classpath:com/yc/dao/*.xml"></property>
+		<property name="configLocation" value="classpath:springMybatis.xml"></property>
+	</bean><!-- 使用SqlSessionFactoryBean代替sqlSessionBuilder来创建SqlSessionFactory进而创建SqlSession,mybatis中的所有数据库操作都由SqlSession来完成；
+	MapperFactoryBean 创建的代理类实现了 Mapper接口,并且注入到应用程序中-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yc"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean><!-- MapperScannerConfigurer它可以将接口转换为Spring容器中的Bean，在Service中@Autowired的方法直接注入接口实例   -->
+	<bean id="tm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean><!-- DataSourceTransactionManager配置事务管理器  -->
+	<tx:advice id="ta" transaction-manager="tm">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="del*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="check*" propagation="SUPPORTS" read-only="true"/>
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+		</tx:attributes>
+	</tx:advice><!-- 配置通知 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.yc.service.*.*(..))" id="tp"/>
+		<aop:advisor advice-ref="ta" pointcut-ref="tp"/>
+	</aop:config><!-- 启用上述配置通知 -->
+
+
+</beans>
+	
+	

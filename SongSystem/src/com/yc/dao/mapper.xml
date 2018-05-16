@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.dao.SongDao">
+	<select id="finAllSong" parameterType="songModel" resultType="songModel">
+		select * 
+		from song 
+		<where>
+			<if test="categoryId!=null">
+				categoryId=#{categoryId}
+			</if>
+			<if test="name!=null">
+				or name like "%#{name}%"
+			</if>
+		</where>
+	</select>
+	<select id="finAllSongTop" parameterType="songModel" resultType="songModel">
+		select * 
+		from song 
+		order by id desc
+		limit 0,3
+	</select>
+	
+	<select id="finAllSongByCondition" parameterType="songQueryModel" resultType="songModel">
+		<!-- select * from song where categoryId=#{categoryId} or name like "%"#{name}"%"
+		 -->
+		 select * from song
+		<where>
+			<if test="categoryId!=-1">
+				categoryId=#{categoryId}
+			</if>
+			<if test="name.trim().length()>0">
+				or name like "%"#{name}"%"
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="finAllCategory" resultType="categoryModel">
+		select * 
+		from category
+	</select>
+	
+	<insert id="addCategory" parameterType="categoryQueryModel">
+		insert into category (name) value(#{name})
+	</insert>
+	
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.yc.model.SongModel" alias="songModel"/>
+		<typeAlias type="com.yc.model.SongQueryModel" alias="songQueryModel"/>
+		<typeAlias type="com.yc.model.CategoryModel" alias="categoryModel"/>
+		<typeAlias type="com.yc.model.CategoryQueryModel" alias="categoryQueryModel"/>
+	</typeAliases>
+</configuration>
+
