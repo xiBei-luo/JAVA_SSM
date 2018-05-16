@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.dao.UserDao">
+	<select id="findAll" resultType="userModel">
+		select * from user
+	</select>
+	<select id="expertFindAll" resultType="expertModel">
+		select * from expert
+	</select>
+	<select id="unitFindAll" resultType="unitModel">
+		select * from unit
+	</select>
+	<select id="projectFindAll" resultType="projectModel">
+		select * from project
+	</select>
+	<select id="projectFindByIdD" parameterType="int" resultType="projectModel">
+		select * from project where categoryid in (#{categoryid})
+	</select>
+	<select id="projectFindById" parameterType="int" resultType="projectModel">
+		select * from project where categoryid=#{categoryid}
+	</select>
+	<select id="expertFindById" parameterType="int" resultType="expertModel">
+		select * from expert where uid=#{uid}
+	</select>
+	<select id="unitFindById" parameterType="int" resultType="unitModel">
+		select * from unit where uid=#{uid}
+	</select>
+	<select id="checkLogin" parameterType="userQueryModel" resultType="userModel">
+		select * from user where username=#{username} and password=#{password}
+	</select>
+	<select id="expertFindProject" resultType="projetCategoryModel">
+		select * from project_category
+	</select>
+	<select id="expertUpdatePass" parameterType="int" resultType="userModel">
+		select * from user where uid=#{uid}
+	</select>
+	<select id="projectCategoryFindAll" resultType="projetCategoryQueryModel">
+		select * from project_category
+	</select>
+	<select id="projectCategoryFindById" parameterType="int" resultType="projetCategoryQueryModel">
+		select * from project_category where categoryid=#{categoryid}
+	</select>
+	<select id="searchProject" parameterType="String" resultType="ProjectModel">
+		select * from project where projectname like '%#{projectname}%'
+	</select>
+	
+	
+	
+	<update id="expertDoUpdate" parameterType="expertQueryModel">
+		update expert set name=#{name},unitname=#{unitname},nation=#{nation},sex=#{sex},title=#{title},tel=#{tel},introduction=#{introduction} where expertid=#{expertid}
+	</update>
+	<update id="projectCategoryDoUpdate" parameterType="projetCategoryQueryModel">
+		update project_category set categoryname=#{categoryname} where categoryid=#{categoryid}
+	</update>
+	<update id="unitDoUpdate" parameterType="unitQueryModel">
+		update unit set unitname=#{unitname},
+		address=#{address},
+		corporation=#{corporation},
+		investment=#{investment},
+		type=#{type},
+		tel=#{tel},
+		email=#{email},
+		fax=#{fax},
+		zipcode=#{zipcode},
+		introduction=#{introduction} where unitid=#{unitid}
+	</update>
+	<update id="expertProjectDoupdate" parameterType="ProjectQueryModel">
+		update project set 
+		expert_opinion=#{expert_opinion},
+		score=#{score} where project_id=#{project_id}
+	</update>
+	<update id="unitPassDoUpdate" parameterType="userModel">
+		update user set password=#{password} where uid=#{uid}
+	</update>
+	
+	<insert id="addUser" parameterType="userModel">
+		insert into user(uid,gid,username,password) values(#{uid},#{gid},#{username},#{password})
+	</insert>
+	<insert id="addProjectCategory" parameterType="projetCategoryQueryModel">
+		insert into project_category(categoryname,expertid,rep_start_time,rep_stop_time) values(#{categoryname},#{expertid},#{rep_start_time},#{rep_stop_time})
+	</insert>
+	<insert id="addProject" parameterType="projectQueryModel">
+		insert into project(projectname,unitid,applicant,grade,education,fill_date,status,future,analysis,way,result,capital) values(#{projectname},#{unitid},#{applicant},#{grade},#{education},#{fill_date},#{status},#{future},#{analysis},#{way},#{result},#{capital})
+	</insert>
+	
+	
+	<!-- <select id="findGroup" parameterType="int" resultType="userGroupModel">
+		select gid from user where uid=#{uid}
+	</select>
+	<delete id="delForeignAdmin" parameterType="int">
+		delete from useradmin where uid=#{uid}
+	</delete>
+	<delete id="delForeignExpert" parameterType="int">
+		delete from expert where uid=#{uid}
+	</delete>
+	<delete id="delForeignUnit" parameterType="int">
+		delete from unit where uid=#{uid}
+	</delete> -->
+	<delete id="userDel" parameterType="int">
+		delete from user where uid=#{uid}
+	</delete>
+	<delete id="expertDel" parameterType="int">
+		delete from expert where expertid=#{expertid}
+	</delete>
+	<delete id="unitDel" parameterType="int">
+		delete from unit where unitid=#{unitid}
+	</delete>
+	<delete id="projectCategoryDel" parameterType="int">
+		delete from project_category where categoryid=#{categoryid}
+	</delete>
+	
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,124 @@
+@CHARSET "UTF-8";
+body{
+	width:1000px;
+	background:#f5f5f5;
+	margin:0px auto;
+}
+*{
+	margin:0;
+	padding:0;
+	list-style:none;
+	color:#333;
+	font-family: "microsoft yahei";
+	font-size: 14px;
+}
+table{
+	width:80%;
+	margin:30px auto;
+	border-right:1px solid #333;
+	border-bottom:1px solid #333;
+	background: #fff;
+}
+td{
+	text-align: left;
+	border-left:1px solid #333;
+	border-top:1px solid #333;
+	padding:5px;
+}
+tr:nth-child(2n){
+	background: #DCDCDC;
+}
+.hv:hover{
+	background: #ddd;
+}
+th{
+	font-size: 16px;
+	padding:15px 15px 15px 10px;
+	font-size: 18px;
+	font-weight: 700;
+	border-left:1px solid #333;
+	border-top:1px solid #333;
+	border-bottom:1px solid #333;
+	color:#000;
+}
+select{
+	width:200px;
+	height:30px;
+	border:none;
+	border:1px solid #ccc;
+	font-size: 16px;
+}
+a,input[type="submit"]{
+	border:none;
+	text-decoration: none;
+	display: inline-block;
+	padding:0px 15px;
+	line-height:26px;
+	background: #5F9EA0;
+	border-radius:5px;
+	color:#fff;
+	font-size: 12px;
+	font-weight: 700;
+}
+a:hover,input[type="submit"]:hover{
+	background: #008080;
+}
+.tb_search{
+	width:800px; 
+	border:none;
+	font-weight: 700;
+}
+.tb_search td{
+	border:none;
+	padding:15px 10px;
+}
+input[type="text"],input[type="password"]{
+	width:95%;
+	border:none;
+	height:30px;
+	line-height:30px;
+	border:1px solid #ccc;
+	border-radius:12px;
+	font-size: 14px;
+ 	padding-left:15px; 
+}
+.addBtn{
+	width:800px;
+	margin:0 auto;
+	margin-top:30px;
+}
+.addUser{
+	width:800px;
+	margin-top:30px;
+	margin-left:70px;
+}
+.update{
+	background: #ec971f;
+}
+.update:hover{
+	background: #CD853F;
+}
+.idNum{
+	font-size: 16px;
+	font-weight: 700;
+	color:#000;
+	padding-left:10px;
+}
+@media screen and (max-width:970px){
+	table,.tb_search{
+		width:700px;
+	}
+	body{
+		width:700px;
+	} 
+}
+@media screen and (max-width:520px){
+	table,.tb_search{
+		width:500px;
+	}
+	body{
+		width:500px;
+	} 
+}
+
+

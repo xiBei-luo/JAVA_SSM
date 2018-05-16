@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.dao.UserDao">
+	<insert id="add" parameterType="userModel">
+		insert into t_crud(operator_id,name,password,status) values(#{operator_id}
+		#{name},#{password},#{status})
+	</insert>
+	<select id="findAll" resultType="userModel">
+	select * from t_crud
+	</select>
+	<select id="findByCondition" parameterType="userQueryModel" resultType="userModel">
+		select * from t_crud where 1=1 
+			<if test="name !=null">
+			 and name like #{name}
+			</if>
+			<if test="status != -1">
+			 and status=#{status}
+			</if> 
+	</select>
+</mapper>

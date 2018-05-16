@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>proSysMenu</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>AddMenuController</servlet-name>
+    <servlet-class>com.yc.menuSys.controller.AddMenuController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddMenuController</servlet-name>
+    <url-pattern>/addMenuController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MenuController</servlet-name>
+    <servlet-class>com.yc.menuSys.controller.MenuController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MenuController</servlet-name>
+    <url-pattern>/menuController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>QrCodeController</servlet-name>
+    <servlet-class>com.yc.menuSys.controller.QrCodeController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QrCodeController</servlet-name>
+    <url-pattern>/qrCodeController</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>OrderController</servlet-name>
+    <servlet-class>com.yc.menuSys.controller.OrderController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderController</servlet-name>
+    <url-pattern>/orderController</url-pattern>
+  </servlet-mapping>
+</web-app>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+">
+	<!-- 服务器启动时加载文件的顺序: web.xml,root-context.xml(spring配置文件),servlet-context(springMVC配置文件)
+	 先配置controller事务不会关联
+	-->
+	
+	<!-- spring 根据注解自动装配Bean -->
+	<context:component-scan base-package="com.yc.*">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- 数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/db_crud" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+
+
+	<!-- 不需要配置myBatis映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="classpath:com/yc/dao/*.xml"/>
+		<property name="configLocation" value="classpath:mybatis.xml"/>
+	</bean>
+
+	<!-- 生成mapper接口的代理 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yc" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 事务配置 -->
+	<!-- 事务管理器 -->
+	<bean id="tm"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- REQUIRED:如果当前没事务，新建一个事务，如有就使用当前事务; SUPPORTS:支持当前事务，如果没有事务，就以非事务执行 -->
+	<tx:advice id="ta" transaction-manager="tm">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* com.yc.service.*.*(..))"
+			id="tp" />
+		<aop:advisor advice-ref="ta" pointcut-ref="tp" />
+	</aop:config>
+</beans>

@@ -1,0 +1,242 @@
+@CHARSET "UTF-8";
+*{
+	margin:0;
+	padding:0;
+	list-style:none;
+	font-size: 14px;
+}
+a{
+	text-decoration: none;
+	color:#000;
+}
+.mainBox{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background: url("../img/banner.jpg");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	overflow: hidden;
+}
+.mainBoxWrap{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background: #000;
+	opacity:0.7;	
+}
+.mainBox h1{
+	font-family:"Microsoft YaHei",微软雅黑; 
+	font-size:52px;
+	color:#fff;
+	position: absolute;
+	left:50%;
+	margin-left:-260px;
+	top:30%;
+	animation:titleAnimation 1s;
+	-moz-animation:titleAnimation 1s; 
+	-webkit-animation:titleAnimation 1s; 
+	-o-animation:titleAnimation 1s; 
+}
+@keyframes titleAnimation{
+	from{
+		opacity:0;
+		top:20%;
+	}
+	to{
+		opacity:1;
+		top:30%;
+	}
+}
+.menu{
+	position: absolute;
+	left:50%;
+	top:50%;
+	margin-left:-150px;
+	animation:menuAnimation 1s;
+	-moz-animation:menuAnimation 1s; 
+	-webkit-animation:menuAnimation 1s; 
+	-o-animation:menuAnimation 1s;
+}
+@keyframes menuAnimation{
+	from{
+		opacity:0;
+		top:70%;
+	}
+	to{
+		opacity:1;
+		top:50%;
+	}
+}
+.menu li{
+	width:300px;
+	height:50px;
+	text-align: center;
+}
+.menu li a{
+	padding:8px 20px;
+	font-family:"Microsoft YaHei",微软雅黑;
+	font-size:18px;
+	color:#fff;
+	font-weight:700;
+	line-height: 50px;
+}
+.menu li a:hover{
+	background: #1cc09f;
+	border-radius:10px;
+}
+
+
+
+/* categoryAdmin */
+.manageBox{
+	width:100%;
+	height:100%;
+	position:absolute;
+	background: url("../img/banner2.jpg");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.title,.content{
+	display: flex;
+	display: -webkit-flex;
+	justify-content:space-around;
+	align-items:center;
+}
+.title{
+	flex-direction:row;
+	height:20%;
+	position: relative;
+	animation:cTitleAnimation 1s;
+	-moz-animation:cTitleAnimation 1s; 
+	-webkit-animation:cTitleAnimation 1s; 
+	-o-animation:cTitleAnimation 1s;
+}
+ @keyframes cTitleAnimation{
+	from{
+		opacity:0;
+		left:-90%;
+	}
+	to{
+		opacity:1;
+		left:0;
+	}
+} 
+.title li{
+	text-align:center;
+	width:33%;
+}
+.title li a{
+	font-family:"Microsoft YaHei",微软雅黑; 
+	font-size:32px;
+	color:#fff;
+	font-weight: 700;
+	padding: 0 15px 10px;
+}
+.title li a:hover{
+	border-bottom: 2px solid #1cc09f;
+}
+.content{
+	align-items:flex-start;
+	width:100%;
+	height:80%;
+	position:relative;
+	animation:manageAnimation 1s;
+	-moz-animation:manageAnimation 1s; 
+	-webkit-animation:manageAnimation 1s; 
+	-o-animation:manageAnimation 1s;
+}
+@keyframes manageAnimation{
+	from{
+		opacity:0;
+		top:90%;
+	}
+	to{
+		opacity:1;
+		top:0;
+	}
+}
+.content table{
+	width:80%;
+	text-align: center;
+	border-collapse:collapse;
+	border-bottom:none;
+	background: #fff;
+}
+.content table tr{
+	border-bottom: 1px solid #ccc;
+}
+.content table td,th{
+	padding:10px 0;
+}
+.content table tr:nth-child(2n-1){
+	background: #ddd;
+}
+.content table a{
+	padding:5px 10px;
+	color:#fff;
+	font-size:14px;
+	font-weight:bold;
+	border-radius:5px;
+	background: #1cc09f;
+}
+.content .head{
+	font-size: 22px;
+	font-weight: bold;
+	background: #1cc09f;
+}
+.content table td:last-child{
+	font-family:"Microsoft YaHei",微软雅黑; 
+	font-size: 16px;
+	font-weight: bold;
+}
+.content input[type="text"]{
+	font-size:18px;
+	margin-left:60px;
+	width:30%;
+	height:40px;
+	border:none;
+	border:2px solid #1cc09f;
+}
+.content input[type="submit"]{
+	border:none;
+	border:1px solid #1cc09f;
+	border-left:none;
+	width:80px;
+	height:44px;
+	background: #1cc09f;
+	font-size: 18px;
+	font-weight: bold;
+	color:#fff;
+}
+/* showSongContent */
+.showSongContent{
+	align-items:center;
+	justify-content:flex-start;
+	flex-direction:column;
+	background: #fff;
+	width:80%;
+	margin:auto;
+}
+.showSongContent form{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width:100%;
+	height:19%;
+}
+.showSongContent select{
+	width:20%;
+	height:44px;
+	border:none;
+	border:2px solid #1cc09f;
+	font-size:16px;
+}
+.showSongContent input[type="text"]{
+	margin-left:10px;
+}
+

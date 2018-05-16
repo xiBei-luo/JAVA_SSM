@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
+        <mvc:annotation-driven /><!-- 自动注册DefaultAnnotationHandlerMapping（处理器映射器）与AnnotationMethodHandlerAdapter（处理器适配器） 两个bean,是spring MVC为@Controllers分发请求所必须的。 -->
+        <context:component-scan base-package="com.yc">
+        	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+        </context:component-scan>
+        
+        <mvc:resources location="/res/" mapping="/res/**/" /><!-- 配置静态资源 -->
+        
+        <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        	<property name="prefix" value="/" />
+        	<property name="suffix" value=".jsp" />
+        </bean>
+        
+        
+        
+</beans>
